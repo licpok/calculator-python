@@ -4,27 +4,31 @@ window = tk.Tk()
 window.title("my window")
 window.geometry("200x200")
 
-e = tk.Entry(window, show=None)
-e.pack()
+var1 = tk.StringVar()
+l = tk.Label(window, bg="yellow", width=4, textvariable=var1)
+l.pack()
 
 
-def insert_point():
-    var = e.get()
-    t.insert("insert", var)
+def print_seletion():
+    value = lb.get(lb.curselection())
+    var1.set(value)
 
 
-def insert_end():
-    var = e.get()
-    t.insert(1.4, var)
-
-
-b1 = tk.Button(window, text="insert point", width=15, height=2, command=insert_point)
+b1 = tk.Button(
+    window, text="print selection", width=15, height=2, command=print_seletion
+)
 b1.pack()
 
-b2 = tk.Button(window, text="insert end", command=insert_end)
-b2.pack()
+var2 = tk.StringVar()
+var2.set((11, 22, 33, 44))
+lb = tk.Listbox(window, listvariable=var2)
+list_items = [1, 2, 3, 4]
+for item in list_items:
+    lb.insert("end", item)
 
-t = tk.Text(window, height=2)
-t.pack()
+lb.insert(0, "first")
+lb.insert(2, "second")
+lb.delete(2)
+lb.pack()
 
 window.mainloop()
