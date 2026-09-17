@@ -4,31 +4,28 @@ window = tk.Tk()
 window.title("my window")
 window.geometry("200x200")
 
-var1 = tk.StringVar()
-l = tk.Label(window, bg="yellow", width=4, textvariable=var1)
+var = tk.StringVar()
+l = tk.Label(window, bg="yellow", width=20, text="empty")
 l.pack()
 
 
-def print_seletion():
-    value = lb.get(lb.curselection())
-    var1.set(value)
+def print_selection():
+    l.config(text="you have selected" + var.get())
 
 
-b1 = tk.Button(
-    window, text="print selection", width=15, height=2, command=print_seletion
+r1 = tk.Radiobutton(
+    window, text="Option A", variable=var, value="A", command=print_selection
 )
-b1.pack()
+r1.pack()
 
-var2 = tk.StringVar()
-var2.set((11, 22, 33, 44))
-lb = tk.Listbox(window, listvariable=var2)
-list_items = [1, 2, 3, 4]
-for item in list_items:
-    lb.insert("end", item)
+r2 = tk.Radiobutton(
+    window, text="Option B", variable=var, value="B", command=print_selection
+)
+r2.pack()
 
-lb.insert(0, "first")
-lb.insert(2, "second")
-lb.delete(2)
-lb.pack()
+r3 = tk.Radiobutton(
+    window, text="Option C", variable=var, value="C", command=print_selection
+)
+r3.pack()
 
 window.mainloop()
