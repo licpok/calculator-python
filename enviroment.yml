@@ -1,0 +1,8 @@
+name: tkinter_project
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.12
+  - tk=8.6.*=xft_*
