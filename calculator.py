@@ -1,46 +1,51 @@
 import tkinter as tk
-import pickle
 
-window = tk.Tk()
-window.title("Welcome to Xiaomuji's world")
-window.geometry("450x300")
+calculator = tk.Tk()
+calculator.title("science calculator")
+calculator.geometry("480x800")
 
-canvas = tk.Canvas(window, height=200, width=500)
-image_file = tk.PhotoImage(file="welcome.gif")
-image = canvas.create_image(0, 0, anchor="nw", image=image_file)
-canvas.pack(side="top")
-
-tk.Label(window, text="user name").place(x=50, y=150)
-tk.Label(window, text="password").place(x=50, y=200)
-
-var_usr_name = tk.StringVar()
-var_usr_name.set("example@python.com")
-var_password = tk.StringVar()
-entry_usr_name = tk.Entry(window, textvariable=var_usr_name)
-entry_password = tk.Entry(window, textvariable=var_password, show="*")
-entry_usr_name.place(x=160, y=150)
-entry_password.place(x=160, y=200)
+# 显示屏
+var = tk.StringVar()
 
 
-def usr_login():
-    usr_name = var_usr_name.get()
-    usr_password = var_password.get()
-    try:
-        with open("usrs_info.pickle", "rb") as usr_file:
-            usrs_info = pickle.load(usr_file)
-    except FileNotFoundError:
-        with open("usrs_info.pickle", "wb") as usr_file:
-            usrs_info = {"admin": "admin"}
-            pickle.dump(usrs_info, usr_file)
+# 显示区
+display = tk.Entry(calculator, textvariable=var, font=("Arial", 24), justify="right")
+display.pack(side="top", fill="x", padx=10, pady=10, ipady=20)
 
 
-def usr_sign_up():
+# 输入区
+button = tk.Frame(calculator)
+button.pack(side="bottom", fill="both", expand=True)
+
+
+# 适配网格
+for r in range(4):
+    button.rowconfigure(r, weight=1)
+for c in range(4):
+    button.columnconfigure(c, weight=1)
+
+
+# 输入模块
+def inp():
     pass
 
 
-btn_login = tk.Button(window, text="login", command=usr_login)
-btn_sign_up = tk.Button(window, text="sign up", command=usr_sign_up)
-btn_login.place(x=170, y=230)
-btn_sign_up.place(x=270, y=230)
+#  制作按钮
+def make_btn(text, r, c, cspan=1):
+    b = tk.Button(button, text=text, command=inp, font=("Arial", 18))
+    b.grid(row=r, column=c, columnspan=cspan, sticky="nsew", padx=2, pady=2)
+    return b
 
-window.mainloop()
+
+# 数字
+make_btn("1", 0, 0), make_btn("2", 0, 1), make_btn("3", 0, 2),
+make_btn("4", 1, 0), make_btn("5", 1, 1), make_btn("6", 1, 2),
+make_btn("7", 2, 0), make_btn("8", 2, 1), make_btn("9", 2, 2),
+# 0 扩展两格
+make_btn("0", 3, 0, 2)
+# 运算符
+make_btn("+", 0, 3), make_btn("-", 1, 3), make_btn("*", 2, 3),
+make_btn("/", 3, 3), make_btn("=", 3, 2)
+
+
+calculator.mainloop()
