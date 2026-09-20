@@ -4,6 +4,7 @@ calculator = tk.Tk()
 calculator.title("science calculator")
 calculator.geometry("480x800")
 
+
 # 显示屏
 var = tk.StringVar()
 
@@ -26,13 +27,33 @@ for c in range(4):
 
 
 # 输入模块
-def inp():
-    pass
+def press(target):
+    cur = var.get()
+    if cur == "" and target in "+*/":
+        return
+    var.set(cur + target)
 
 
-#  制作按钮
-def make_btn(text, r, c, cspan=1):
-    b = tk.Button(button, text=text, command=inp, font=("Arial", 18))
+# 计算模块
+def equal():
+    global var
+    expression = var.get()
+    if expression == "":
+        return
+    try:
+        result = eval(expression)
+        var.set(str(result))
+    except ZeroDivisionError:
+        var.set("0 can't be the division!")
+    except Exception:
+        var.set("the expression is wrong")
+
+
+# 制作按钮
+def make_btn(text, r, c, cspan=1, cmd=None):
+    if cmd == None:
+        cmd = lambda t=text: press(t)
+    b = tk.Button(button, text=text, command=cmd, font=("Arial", 18))
     b.grid(row=r, column=c, columnspan=cspan, sticky="nsew", padx=2, pady=2)
     return b
 
@@ -45,7 +66,7 @@ make_btn("7", 2, 0), make_btn("8", 2, 1), make_btn("9", 2, 2),
 make_btn("0", 3, 0, 2)
 # 运算符
 make_btn("+", 0, 3), make_btn("-", 1, 3), make_btn("*", 2, 3),
-make_btn("/", 3, 3), make_btn("=", 3, 2)
+make_btn("/", 3, 3), make_btn("=", 3, 2, 1, equal)
 
 
 calculator.mainloop()
